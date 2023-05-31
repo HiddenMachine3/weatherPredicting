@@ -3,6 +3,7 @@
 #include <Adafruit_BMP085_U.h>
 #include <DHT.h>
 
+#define D4 2
 #define DHTPIN D4         // Pin connected to the DHT11 sensor
 #define DHTTYPE DHT11     // DHT sensor type
 #define ALTITUDE 100.0    // Altitude in meters
