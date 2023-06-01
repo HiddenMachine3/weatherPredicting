@@ -86,7 +86,7 @@ int Threshold = 550;           // Determine which Signal to "count as a beat", a
 //network variables
 // replace the MAC address below by the MAC address printed on a sticker on the Arduino Shield 2
 //80:7D:3A:6F:0C:FB
-byte mac[] = {0x40,0xF5,0x20,0xF3,0xD1,0xBA };//0x80, 0x7D, 0x3A, 0x6F, 0x0C, 0xFB };
+byte mac[] = {0x80, 0x7D, 0x3A, 0x6F, 0x0C, 0xFB };//0x40,0xF5,0x20,0xF3,0xD1,0xBA };//
 char* ssid = "RVU";
 char* pass = "RVU@guru";
 //char* ssid = "RVU";
@@ -98,7 +98,7 @@ WiFiClient client;
 
 int HTTP_PORT = 80;
 String HTTP_METHOD = "GET";
-char HOST_NAME[] = "172.16.185.144";//"172.16.185.144";//"192.168.29.65";  //172.16.185.144";  //"192.168.154.174";  // change to your PC's IP address //RVU : 172.16.185.144
+char HOST_NAME[] = "hidden-machine-2.local";//"172.16.185.144";//"172.16.185.144";//"192.168.29.65";  //172.16.185.144";  //"192.168.154.174";  // change to your PC's IP address //RVU : 172.16.185.144
 String PATH_NAME = "/insertweatherdata.php";
 //String queryPattern = "?value=%d&time=%s";
 //String queryString = "?value=12&time=2001-10-10%2010:01:10";
@@ -177,10 +177,10 @@ String getCurrentDateTimeString() {
 
 void sendHTTPWeatherRequest(String timestamp, float temperature, float humidity, float pressure) {  //needed timestamp format : 2001-10-10%2010:01:10 TODO: and millis to be introduced
   if (client.connect(HOST_NAME, HTTP_PORT)) {
-    // String query_string = HTTP_METHOD + " " + PATH_NAME + "?temperature=" + temperature + "&presure=" + pressure + "&humidity=" + humidity + "&time=" + timestamp + " HTTP/1.1";
-    // client.println(query_string);
-    Serial.println(timestamp);
-    client.println("GET 172.16.185.144/insertweatherdata.php?time=2023-12-12%20016:30:00&pressure=12&temperature=12&humidity=12 HTTP/1.1");
+    String query_string = HTTP_METHOD + " http://" + HOST_NAME+PATH_NAME + "?temperature=" + temperature + "&pressure=" + pressure + "&humidity=" + humidity + "&time=" + timestamp + " HTTP/1.1";
+    client.println(query_string);
+    //Serial.println(timestamp);
+    //client.println("GET http://hidden-machine-2.local/insertweatherdata.php?time=2023-12-12%20016:30:00&pressure=12&temperature=12&humidity=12 HTTP/1.1");
     client.println("Host: " + String(HOST_NAME));
     client.println("Connection: close");
     client.println();  // end HTTP header
@@ -189,7 +189,7 @@ void sendHTTPWeatherRequest(String timestamp, float temperature, float humidity,
       if (client.available()) {
         // read an incoming byte from the server and print it to serial monitor:
         char c = client.read();
-        //Serial.print(c);
+        Serial.print(c);
       }
     }
   } else
