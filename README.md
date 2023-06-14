@@ -1,4 +1,11 @@
 # weatherPredicting
+Weather sensor data using ML.
+IoT sensor data collection code included. 
+
+
+
+
+
 
 todo:
   +succesfully collect barometer data and print it
